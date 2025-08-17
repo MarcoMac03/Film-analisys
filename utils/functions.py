@@ -20,3 +20,11 @@ def classifica_rating(rating):
         return 'Per tutti'
     else:
         return 'Altro'
+
+def classifica_durata(row):
+    if row['minute'] < 50:
+        return 'Cortometraggio'
+    elif row['minute'] <= 240:
+        return 'Film'
+    else:
+        return 'Serie'
