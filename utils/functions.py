@@ -28,3 +28,11 @@ def classifica_durata(row):
         return 'Film'
     else:
         return 'Serie'
+
+def status_oscars(row):
+    if row.get('winner', False) is True:
+        return 'Vincitore'
+    elif row.get('nominated', False) is True:
+        return 'Nominato'
+    else:
+        return 'Non nominato'
