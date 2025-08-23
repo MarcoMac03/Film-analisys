@@ -1,3 +1,6 @@
+import re
+
+
 def classifica_rating(rating):
     vietati_18 = [
         'R', 'NC-17', 'VM18', '18', '18A', 'R18', 'R-18', '18PL', 'C18', 'M/18',
@@ -36,3 +39,37 @@ def status_oscars(row):
         return 'Nominato'
     else:
         return 'Non nominato'
+
+letter_score = {
+    'A+':10, 'A':9.5, 'A-':9.0, 'B+':8.7, 'B':8.5, 'B-':8.0, 'C+':7.7,
+    'C':7.5, 'C-':7.2, 'D+':7.0, 'D':6.5, 'D-':6.0, 'F':4,
+}
+
+def normalize_review(value):
+    value = str(value).strip().upper()
+
+    # for fractions
+    if re.match(r'^\d+(\.\d+)?/\d+(\.\d+)?$', value):
+        try:
+            num, den = map(float, value.split('/'))
+            score = (num/den) * 10
+            return round(score, 1)
+        except:
+            return None
+
+    # for float or integer number
+    if re.match(r'^\d+(\.\d+)?$', value):
+        val = float(value)
+        if val<=10:
+            return round(val, 1)
+        elif val<=100:
+            return round((val/100) * 10, 1)
+        else:
+            return None
+
+    # for the letters
+    if value in letter_score:
+        return letter_score[value]
+
+    # Nan
+    return None
